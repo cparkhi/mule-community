@@ -16,7 +16,7 @@
             <spring:constructor-arg ref="_muleContext" />
         </spring:bean>
 
-        <spring:bean name="_muleTransactionManager" class="org.mule.config.spring.factories.TransactionManagerFactoryBean"/>
+        <spring:bean name="_muleTransactionManager" class="org.mule.config.spring.factories.TransactionManagerFactoryBean" scope="prototype"/>
 
         <spring:bean name="_defaultInMemoryQueueStore,_simpleMemoryQueueStore" class="org.mule.util.store.DefaultObjectStoreFactoryBean" factory-method="createDefaultInMemoryQueueStore"/>
 

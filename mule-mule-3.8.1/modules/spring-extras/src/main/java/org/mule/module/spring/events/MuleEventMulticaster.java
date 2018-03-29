@@ -6,6 +6,16 @@
  */
 package org.mule.module.spring.events;
 
+import java.beans.ExceptionListener;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+import java.util.concurrent.CopyOnWriteArraySet;
+import java.util.concurrent.ExecutorService;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.mule.DefaultMuleEvent;
 import org.mule.DefaultMuleMessage;
 import org.mule.MessageExchangePattern;
@@ -42,17 +52,6 @@ import org.mule.object.SingletonObjectFactory;
 import org.mule.routing.filters.WildcardFilter;
 import org.mule.service.ServiceCompositeMessageSource;
 import org.mule.util.ClassUtils;
-
-import java.beans.ExceptionListener;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-import java.util.concurrent.CopyOnWriteArraySet;
-import java.util.concurrent.ExecutorService;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -61,6 +60,7 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ApplicationEventMulticaster;
 import org.springframework.context.event.ContextClosedEvent;
 import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.core.ResolvableType;
 
 /**
  * <code>MuleEventMulticaster</code> is an implementation of a Spring
@@ -595,6 +595,11 @@ public class MuleEventMulticaster
         }
     }
 
+    @Override
+    public void multicastEvent(ApplicationEvent arg0, ResolvableType arg1) {
+    	multicastEvent(arg0);
+    	}
+    
     private boolean registerAsSoap(String endpoint, Object listener) throws MuleException
     {
         if (endpoint.startsWith("soap") || endpoint.startsWith("axis") || endpoint.startsWith("cxf"))
